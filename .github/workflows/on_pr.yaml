@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: docker://ghcr.io/iterative/cml:latest
+    #container: docker://ghcr.io/iterative/cml:latest
 
     steps:
       - run: git --version
@@ -22,6 +22,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run DVC pipeline
+        container: docker://ghcr.io/iterative/cml:latest
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
           GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
@@ -29,18 +30,21 @@ jobs:
           dvc repro --pull
 
       - name: Share changes
+        container: docker://ghcr.io/iterative/cml:latest
         env:
           GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
         run: |
           dvc push
 
       - name: Create a P.R. with CML 
+        container: docker://ghcr.io/iterative/cml:latest
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cml pr --auto-merge "dvc.lock" "outs/*.json" "outs/eval"  "outs/train_metrics"
 
       - name: CML Report
+        container: docker://ghcr.io/iterative/cml:latest
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
