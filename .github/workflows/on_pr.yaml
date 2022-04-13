@@ -12,6 +12,7 @@ jobs:
     container: docker://ghcr.io/iterative/cml:latest
 
     steps:
+      - run: git --version
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
