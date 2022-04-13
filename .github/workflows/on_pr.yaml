@@ -9,10 +9,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: docker://ghcr.io/iterative/cml:latest
+    container: 
+      image: docker://ghcr.io/iterative/cml:latest
+      options: --cap-add
 
     steps:
-      - run: git --version
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
