@@ -9,15 +9,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: 
-      image: docker://ghcr.io/iterative/cml:latest
-      options: --cap-add
-
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
+      - uses: iterative/setup-cml@v1
+      - uses: iterative/setup-dvc@v1
       - name: Setup
         run: |
           pip install -r requirements.txt
